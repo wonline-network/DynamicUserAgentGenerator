@@ -20,25 +20,29 @@ class DynamicUserAgentGenerator {
      * Windows Operating System list with dynamic versioning
      * @var array $windows_os
      */
-    public $windows_os = [ '[Windows; |Windows; U; |]Windows NT 6.:number0-3:;[ Win64; x64| WOW64| x64|]',
-        '[Windows; |Windows; U; |]Windows NT 10.:number0-5:;[ Win64; x64| WOW64| x64|]', ];
+    private array $windows_os = [
+        '[Windows; |Windows; U; |]Windows NT 6.:number0-3:;[ Win64; x64| WOW64| x64|]',
+        '[Windows; |Windows; U; |]Windows NT 10.:number0-5:;[ Win64; x64| WOW64| x64|]',
+    ];
     /**
      * Linux Operating Systems [limited]
      * @var array $linux_os
      */
-    public $linux_os = [ '[Linux; |][U; |]Linux x86_64',
-        '[Linux; |][U; |]Linux i:number5-6::number4-8::number0-6: [x86_64|]' ];
+    private array $linux_os = [
+        '[Linux; |][U; |]Linux x86_64',
+        '[Linux; |][U; |]Linux i:number5-6::number4-8::number0-6: [x86_64|]',
+    ];
     /**
      * Mac Operating System (OS X) with dynamic versioning
      * @var array $mac_os
      */
-    public $mac_os = [ 'Macintosh; [U; |]Intel Mac OS X :number7-9:_:number0-9:_:number0-9:',
+    public array $mac_os = [ 'Macintosh; [U; |]Intel Mac OS X :number7-9:_:number0-9:_:number0-9:',
         'Macintosh; [U; |]Intel Mac OS X 10_:number0-12:_:number0-9:' ];
     /**
      * Versions of Android to be used
      * @var array $androidVersions
      */
-    public $androidVersions = [ '4.3.1',
+    public array $androidVersions = [ '4.3.1',
         '4.4',
         '4.4.1',
         '4.4.4',
@@ -157,30 +161,20 @@ class DynamicUserAgentGenerator {
 
     /**
      * Get a random operating system
-     * @param null|string $os
+     * @param string|null $os
      * @return string *
      */
-    public function getOS($os = NULL) {
+    public function getOS(string $os = NULL) {
         $_os = [];
-        if($os === NULL || in_array($os, [ 'chrome', 'firefox', 'explorer' ])) {
+        if ($os === NULL || in_array($os, ['chrome', 'firefox', 'explorer'])) {
             $_os = $os === 'explorer' ? $this->windows_os : array_merge($this->windows_os, $this->linux_os, $this->mac_os);
         } else {
             $_os += $this->{$os . '_os'};
         }
-        // randomly select on operating system
         $selected_os = rtrim($_os[rand(0, count($_os) - 1)], ';');
-
-        // check for spin syntax
-        if(strpos($selected_os, '[') !== FALSE) {
-            $selected_os = self::processSpinSyntax($selected_os);
-        }
-
-        // check for random number syntax
-        if(strpos($selected_os, ':number') !== FALSE) {
-            $selected_os = self::processRandomNumbers($selected_os);
-        }
-
-        if(rand(1, 100) > 50) {
+        $selected_os = $this->processSpinSyntax($selected_os);
+        $selected_os = $this->processRandomNumbers($selected_os);
+        if (rand(1, 100) > 50) {
             $selected_os .= '; en-US';
         }
         return $selected_os;
@@ -188,10 +182,10 @@ class DynamicUserAgentGenerator {
 
     /**
      * Get Mobile OS
-     * @param null|string $os Can specifiy android, iphone, ipad, ipod, or null/blank for random
+     * @param string|null $os Can specifiy android, iphone, ipad, ipod, or null/blank for random
      * @return string *
      */
-    public function getMobileOS($os = NULL) {
+    public function getMobileOS(string $os = NULL) {
         $os = strtolower($os);
         $_os = [];
         switch( $os ) {
@@ -225,7 +219,7 @@ class DynamicUserAgentGenerator {
      * @param $selected_os
      * @return null|string|string[] *
      */
-    public static function processRandomNumbers($selected_os) {
+    private static function processRandomNumbers($selected_os) {
         return preg_replace_callback('/:number(\d+)-(\d+):/i', function($matches) { return rand($matches[1], $matches[2]); }, $selected_os);
     }
 
@@ -234,8 +228,8 @@ class DynamicUserAgentGenerator {
      * @param $selected_os
      * @return null|string|string[] *
      */
-    public static function processSpinSyntax($selected_os) {
-        return preg_replace_callback('/\[([\w\-\s|;]*?)\]/i', function($matches) {
+    private static function processSpinSyntax($selected_os) {
+        return preg_replace_callback('/\[([\w\-\s|;]*?)]/i', function($matches) {
             $shuffle = explode('|', $matches[1]);
             return $shuffle[array_rand($shuffle)];
         }, $selected_os);
@@ -269,7 +263,8 @@ class DynamicUserAgentGenerator {
      * @param $version
      * @return string *
      */
-    public static function chromeVersion($version) {
+    public static function chromeVersion($version): string
+    {
         return rand($version['min'], $version['max']) . '.0.' . rand(1000, 4000) . '.' . rand(100, 400);
     }
 
@@ -278,7 +273,8 @@ class DynamicUserAgentGenerator {
      * @param $version
      * @return string *
      */
-    public static function firefoxVersion($version) {
+    public static function firefoxVersion($version): string
+    {
         return rand($version['min'], $version['max']) . '.' . rand(0, 9);
     }
 
@@ -287,7 +283,8 @@ class DynamicUserAgentGenerator {
      * @param $version
      * @return string *
      */
-    public static function windows($version) {
+    public static function windows($version): string
+    {
         return rand($version['min'], $version['max']) . '.' . rand(0, 9);
     }
 
@@ -295,8 +292,10 @@ class DynamicUserAgentGenerator {
      * generate
      * @param null $userAgent
      * @return string *
+     * @throws Exception
      */
-    public function generate($userAgent = NULL) {
+    public function generate($userAgent = NULL): string
+    {
         if($userAgent === NULL) {
             $r = rand(0, 100);
             if($r >= 44) {
@@ -327,7 +326,7 @@ class DynamicUserAgentGenerator {
             return 'Mozilla/5.0 (' . $this->getMobileOS($userAgent) . ') AppleWebKit/' . (rand(1, 100) > 50 ? rand(533, 537) : rand(600, 603)) . '.' . rand(1, 50) . ' (KHTML, like Gecko)  Chrome/' . self::chromeVersion([ 'min' => 47,
                     'max' => 55 ]) . ' Mobile Safari/' . (rand(1, 100) > 50 ? rand(533, 537) : rand(600, 603)) . '.' . rand(0, 9);
         } else {
-            new Exception('Unable to determine user agent to generate');
+            throw new Exception('Unable to determine user agent to generate');
         }
     }
 }
