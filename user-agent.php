@@ -1,6 +1,21 @@
 <?php
+/**
+ * DynamicUserAgentGenerator
+ *
+ * Esta clase en PHP está diseñada para generar dinámicamente cadenas de agentes de usuario.
+ * Soporta una variedad de sistemas operativos incluyendo Windows, Linux, Mac, Android e iOS,
+ * con capacidades para versionado dinámico y ajustes específicos del dispositivo.
+ *
+ * @category   Testing
+ * @package    UserAgentGenerator
+ * @author     Angel Luis Marino
+ * @license    MIT License
+ * @version    1.0.0
+ * @link       https://wonline.network
+ */
 
-class userAgent {
+
+class DynamicUserAgentGenerator {
     /**
      * Windows Operating System list with dynamic versioning
      * @var array $windows_os
@@ -316,3 +331,25 @@ class userAgent {
         }
     }
 }
+
+/**
+ * DynamicUserAgentGenerator is a PHP class designed to dynamically generate user agent strings.
+ * It supports a variety of operating systems including Windows, Linux, Mac, Android, and iOS,
+ * with capabilities for dynamic versioning and device-specific adjustments. This class can be
+ * particularly useful for testing web applications across different browsers, operating systems,
+ * and devices by simulating a wide range of user agent strings.
+ *
+ * Usage:
+ * - Instantiate the DynamicUserAgentGenerator class.
+ * - Call the `generate` method to get a random user agent string based on the specified or random criteria.
+ * - Use the `getOS` or `getMobileOS` methods to get a user agent string for a specific operating system or mobile device.
+ *
+ * Example:
+ * ```
+ * $userAgentGenerator = new DynamicUserAgentGenerator();
+ * echo $userAgentGenerator->generate();
+ * ```
+ *
+ * Note: This class utilizes randomization techniques to produce varied and realistic user agent strings,
+ * including the use of spin syntax and random number generation within predefined ranges.
+ */
