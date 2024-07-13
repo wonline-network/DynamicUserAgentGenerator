@@ -1,4 +1,7 @@
 # DynamicUserAgentGenerator
+[![Latest Stable Version](https://poser.pugx.org/wonline-network/dynamic-user-agent-generator/v)](https://packagist.org/packages/wonline-network/dynamic-user-agent-generator)
+[![Total Downloads](https://poser.pugx.org/wonline-network/dynamic-user-agent-generator/downloads)](https://packagist.org/packages/wonline-network/dynamic-user-agent-generator)
+[![License](https://poser.pugx.org/wonline-network/dynamic-user-agent-generator/license)](https://packagist.org/packages/wonline-network/dynamic-user-agent-generator)
 
 El `DynamicUserAgentGenerator` es una clase PHP diseñada para generar dinámicamente cadenas de agentes de usuario. Soporta una variedad de sistemas operativos incluyendo Windows, Linux, Mac, Android e iOS, con capacidades para versionado dinámico y ajustes específicos del dispositivo. Esta clase es particularmente útil para pruebas de aplicaciones web en diferentes navegadores, sistemas operativos y dispositivos simulando una amplia gama de cadenas de agentes de usuario.
 
