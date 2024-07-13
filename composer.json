@@ -1,0 +1,20 @@
+{
+  "name": "wonline-network/dynamic-user-agent-generator",
+  "description": "PHP class designed to dynamically generate user agent strings.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Angel Luis Marino",
+      "email": "marino@angelluis.es"
+    }
+  ],
+  "require": {
+    "php": "^7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "DynamicUserAgentGenerator\\": "src/"
+    }
+  }
+}
